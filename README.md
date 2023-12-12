@@ -2,3 +2,5 @@
 Its's only about my exercise of C Plus Plus
 ## exercise1 
 add two string, which is integer(may be negative), and return the sum. 
+## exercise2
+add two string, which is non-negative and floating.
