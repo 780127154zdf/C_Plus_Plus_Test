@@ -1,7 +1,9 @@
 #include"addStrings.h"
 #include<algorithm>
 
-// 带小数点的两个字符串相加，返回它们的和
+// 带小数点的两个非负字符串相加，返回它们的和
+// 也允许字符串为整数，不必满足非负
+// 带小数的部分字符串必须非负，还没有处理负数的带小数字符串相加情况
 string addFloatStrings(string num1, string num2){
 	int iFloat1 = -1, iFloat2 = -1; // 小数点的下标
 	for(int i = 0; i < num1.size(); ++i){
@@ -16,6 +18,21 @@ string addFloatStrings(string num1, string num2){
 			break;
 		}
 	}
+	if(iFloat1 == -1 && iFloat2 == -1){
+		// 整数字符串相加
+		return addStrings(num1, num2);
+	}
+
+	if(iFloat1 == -1){
+		// 说明num1是整数
+		num1 += ".0"; // 构造成带小数
+		iFloat1 = num1.size() - 2;
+	}
+	if(iFloat2 == -1){
+		num2 += ".0";
+		iFloat2 = num2.size() - 2;
+	}
+	
 	string interStr1 = num1.substr(0, iFloat1), floatStr1 = num1.substr(iFloat1 + 1); // 按小数点将字符串分为整数和小数部分
 	string interStr2 = num2.substr(0, iFloat2), floatStr2 = num2.substr(iFloat2 + 1);
 	if(floatStr1.size() > floatStr2.size()){
@@ -49,10 +66,15 @@ string addFloatStrings(string num1, string num2){
 		ans1 += (sum % 10 + '0');
 		carry = sum / 10;
 		--i;
-		--j; // 忘了加，陷入死循环
+		--j; // 如果不加，陷入死循环
 	}
+	int index = 0; // 去掉小数翻转前的前导0
+	while(index < ans2.size() && ans2[index] == '0') ++index;
+	if(index == ans2.size()) ans2 = "";
+	else ans2 = ans2.substr(index);
 	reverse(ans1.begin(), ans1.end());
-	return ans1 + "." + ans2;
+	if(ans2 != "") ans2 = "." + ans2; // 需要的时候加上小数点
+	return ans1 + ans2;
 }
 
 // 两个非负整数相加

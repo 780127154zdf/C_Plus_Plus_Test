@@ -4,9 +4,9 @@
 using namespace std;
 
 int main(){
-	string num1 = "123.123";
-    string num2 = "999.999";
-	// cin >> num1 >> num2;
+	string num1;
+    string num2;
+	cin >> num1 >> num2;
 	cout << addFloatStrings(num1, num2) << endl;
 	return 0;
 }
